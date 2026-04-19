@@ -1,0 +1,68 @@
+package scenes
+
+import (
+	"log"
+
+	"github.com/MarcelArt/m-engine/internal/entities"
+	"github.com/MarcelArt/m-engine/pkg/engine"
+	rl "github.com/gen2brain/raylib-go/raylib"
+)
+
+type MenuScene struct {
+	Entities []engine.Entity
+}
+
+func (m *MenuScene) Start(g *engine.Game) {
+	m.Entities = make([]engine.Entity, 0)
+
+	newGameBtn := &entities.Button{
+		Rect:       rl.NewRectangle(300, 200, 200, 50),
+		Text:       "New Game",
+		FontSize:   20,
+		Color:      rl.DarkGray,
+		HoverColor: rl.Gray,
+		OnClick: func() {
+			log.Println("Clicked new game")
+			g.SceneManager.LoadScene(g, "flappy")
+		},
+	}
+	settingsBtn := &entities.Button{
+		Rect:       rl.NewRectangle(300, 270, 200, 50),
+		Text:       "Settings",
+		FontSize:   20,
+		Color:      rl.DarkGray,
+		HoverColor: rl.Gray,
+		OnClick: func() {
+			log.Println("Settings clicked")
+		},
+	}
+	exitBtn := &entities.Button{
+		Rect:       rl.NewRectangle(300, 340, 200, 50),
+		Text:       "Exit",
+		FontSize:   20,
+		Color:      rl.DarkGray,
+		HoverColor: rl.Gray,
+		OnClick: func() {
+			log.Println("Exit clicked")
+		},
+	}
+
+	m.Entities = append(m.Entities, newGameBtn)
+	m.Entities = append(m.Entities, settingsBtn)
+	m.Entities = append(m.Entities, exitBtn)
+}
+
+func (m *MenuScene) Update(g *engine.Game) {
+	rl.ClearBackground(rl.Black)
+	rl.DrawText("Main Menu", 320, 100, 30, rl.White)
+
+	for _, e := range m.Entities {
+		e.Update(g)
+	}
+}
+
+func (m *MenuScene) Destroy(g *engine.Game) {
+	m.Entities = nil
+}
+
+var _ engine.Scene = &MenuScene{}
