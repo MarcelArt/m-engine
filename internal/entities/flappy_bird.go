@@ -1,8 +1,6 @@
 package entities
 
 import (
-	"log"
-
 	"github.com/MarcelArt/m-engine/pkg/engine"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
@@ -23,8 +21,6 @@ func (f *FlappyBird) Update(g *engine.Game) {
 		f.Velocity.Y = -f.JumpForce
 	}
 
-	log.Println("f.Position.X :>> ", f.Position.X)
-	log.Println("f.Position.Y :>> ", f.Position.Y)
 	rl.DrawRectangle(int32(f.Position.X), int32(f.Position.Y), 100, 100, rl.Blue)
 }
 
