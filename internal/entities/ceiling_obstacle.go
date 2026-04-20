@@ -1,6 +1,7 @@
 package entities
 
 import (
+	"github.com/MarcelArt/m-engine/internal/enums"
 	"github.com/MarcelArt/m-engine/pkg/engine"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
@@ -11,13 +12,22 @@ type CeilingObstacle struct {
 	Height   uint
 }
 
-func (c *CeilingObstacle) Start(g *engine.Game) {
+func (o *CeilingObstacle) Start(g *engine.Game) {
 }
 
-func (c *CeilingObstacle) Update(g *engine.Game) {
+func (o *CeilingObstacle) Update(g *engine.Game) {
+	segmentPos := o.Position
+	tileHeight := o.Sprite.TileSize.Y
+	tileScale := o.Sprite.Scale
+
+	for i := 0; i < int(o.Height); i++ {
+		o.Sprite.DrawTile(enums.MiddlePipe, segmentPos, rl.White)
+		segmentPos.Y += tileHeight * tileScale
+	}
+	o.Sprite.DrawTile(enums.BottomPipe, segmentPos, rl.White)
 }
 
-func (c *CeilingObstacle) Destroy(g *engine.Game) {
+func (o *CeilingObstacle) Destroy(g *engine.Game) {
 }
 
 func CeilingObstaclePrefab(sprite *engine.Spritesheet, pos rl.Vector2, height uint) func() *CeilingObstacle {

@@ -17,7 +17,20 @@ func (s *FlappyScene) Start(g *engine.Game) {
 		Sprite:    engine.NewSpritesheet("assets/Bird1-7.png", rl.NewVector2(16, 16), 3),
 	}
 
+	ceilObstacle := &entities.CeilingObstacle{
+		Sprite:   engine.NewSpritesheet("assets/PipeStyle1.png", rl.NewVector2(32, 20), 3),
+		Position: rl.NewVector2(500, 0),
+		Height:   5,
+	}
+	floorObstacle := &entities.FloorObstacle{
+		Sprite:   engine.NewSpritesheet("assets/PipeStyle1.png", rl.NewVector2(32, 20), 3),
+		Position: rl.NewVector2(500, 0),
+		Height:   8,
+	}
+
 	s.Entities = append(s.Entities, flappyBird)
+	s.Entities = append(s.Entities, ceilObstacle)
+	s.Entities = append(s.Entities, floorObstacle)
 
 	physics := engine.NewPhysicsSystem(rl.NewVector2(0, 1), 800)
 	physics.AddEntity(flappyBird)

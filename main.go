@@ -10,6 +10,6 @@ func main() {
 
 	game.SceneManager.Register("menu", &scenes.MenuScene{})
 	game.SceneManager.Register("flappy", &scenes.FlappyScene{})
-	game.SceneManager.SetDefaultScene("menu")
+	game.SceneManager.SetDefaultScene("flappy")
 	game.Start()
 }
