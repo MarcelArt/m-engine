@@ -29,6 +29,9 @@ func (o *ObstacleSpawner) Update(g *engine.Game) {
 		g.PhysicsSystem.AddEntity(ceilObstacle)
 		g.PhysicsSystem.AddEntity(floorObstacle)
 
+		g.CollisionSystem.AddRectCollidable(ceilObstacle)
+		g.CollisionSystem.AddRectCollidable(floorObstacle)
+
 		g.SceneManager.GetCurrentScene().AddEntity(ceilObstacle)
 		g.SceneManager.GetCurrentScene().AddEntity(floorObstacle)
 	}

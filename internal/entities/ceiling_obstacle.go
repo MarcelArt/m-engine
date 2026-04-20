@@ -52,6 +52,19 @@ func (CeilingObstacle) IsGravityEnabled() bool {
 	return false
 }
 
+func (o *CeilingObstacle) GetColliderRect() rl.Rectangle {
+	return rl.NewRectangle(
+		o.Position.X,
+		o.Position.Y,
+		o.Sprite.TileSize.X*o.Sprite.Scale,
+		o.Sprite.TileSize.Y*o.Sprite.Scale*float32(o.Height+1),
+	)
+}
+
+func (o *CeilingObstacle) SetColliderRect(rl.Rectangle) {}
+
+func (o *CeilingObstacle) OnCollision(other engine.RectCollidable) {}
+
 func CeilingObstaclePrefab(sprite *engine.Spritesheet, pos rl.Vector2) func(height uint, velocity rl.Vector2) *CeilingObstacle {
 	return func(height uint, velocity rl.Vector2) *CeilingObstacle {
 		return &CeilingObstacle{
@@ -62,3 +75,5 @@ func CeilingObstaclePrefab(sprite *engine.Spritesheet, pos rl.Vector2) func(heig
 		}
 	}
 }
+
+var _ engine.RectCollidable = &CeilingObstacle{}

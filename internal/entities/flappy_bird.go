@@ -1,6 +1,8 @@
 package entities
 
 import (
+	"log"
+
 	"github.com/MarcelArt/m-engine/pkg/engine"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
@@ -50,4 +52,17 @@ func (f *FlappyBird) IsGravityEnabled() bool {
 	return true
 }
 
+func (f *FlappyBird) GetColliderRect() rl.Rectangle {
+	return rl.NewRectangle(f.Position.X, f.Position.Y, f.Sprite.TileSize.X*f.Sprite.Scale, f.Sprite.TileSize.Y*f.Sprite.Scale)
+}
+
+func (f *FlappyBird) SetColliderRect(rect rl.Rectangle) {
+	// f.ColliderRect = rect
+}
+
+func (f *FlappyBird) OnCollision(other engine.RectCollidable) {
+	log.Println("Collision with", other)
+}
+
 var _ engine.Entity = &FlappyBird{}
+var _ engine.RectCollidable = &FlappyBird{}

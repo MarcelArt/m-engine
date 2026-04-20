@@ -26,6 +26,7 @@ func (o *FloorObstacle) Update(g *engine.Game) {
 		o.Sprite.DrawTile(enums.MiddlePipe, segmentPos, rl.White)
 		segmentPos.Y -= tileHeight * tileScale
 	}
+
 	o.Sprite.DrawTile(enums.TopPipe, segmentPos, rl.White)
 }
 
@@ -52,6 +53,30 @@ func (o *FloorObstacle) SetVelocity(vel rl.Vector2) {
 func (FloorObstacle) IsGravityEnabled() bool {
 	return false
 }
+
+func (o *FloorObstacle) GetColliderRect() rl.Rectangle {
+	actualHeight := o.Sprite.TileSize.Y * o.Sprite.Scale * float32(o.Height+1)
+	screenHeight := rl.GetScreenHeight()
+	tileHeight := o.Sprite.TileSize.Y
+	tileScale := o.Sprite.Scale
+
+	segmentPos := rl.NewVector2(
+		o.Position.X,
+		float32(screenHeight)-tileHeight*tileScale*float32(o.Height),
+	)
+
+	return rl.NewRectangle(
+		segmentPos.X,
+		segmentPos.Y,
+		o.Sprite.TileSize.X*o.Sprite.Scale,
+		actualHeight,
+	)
+
+}
+
+func (o *FloorObstacle) SetColliderRect(rl.Rectangle) {}
+
+func (o *FloorObstacle) OnCollision(other engine.RectCollidable) {}
 
 func FloorObstaclePrefab(sprite *engine.Spritesheet, pos rl.Vector2) func(height uint, velocity rl.Vector2) *FloorObstacle {
 	return func(height uint, velocity rl.Vector2) *FloorObstacle {

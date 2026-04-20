@@ -5,12 +5,13 @@ import (
 )
 
 type Game struct {
-	width         int32
-	height        int32
-	title         string
-	targetFPS     int32
-	SceneManager  *SceneManager
-	PhysicsSystem *PhysicsSystem
+	width           int32
+	height          int32
+	title           string
+	targetFPS       int32
+	SceneManager    *SceneManager
+	PhysicsSystem   *PhysicsSystem
+	CollisionSystem *CollisionSystem
 }
 
 func NewGame(width int32, height int32, title string, targetFPS int32) *Game {
@@ -34,6 +35,7 @@ func (g *Game) Start() {
 	g.SceneManager.Start(g)
 	for !rl.WindowShouldClose() {
 		g.handlePhysics()
+		g.handleCollision()
 		g.SceneManager.Update(g)
 	}
 }
@@ -42,8 +44,18 @@ func (g *Game) SetPhysicsSystem(physicSystem *PhysicsSystem) {
 	g.PhysicsSystem = physicSystem
 }
 
+func (g *Game) SetCollisionSystem(collisionSystem *CollisionSystem) {
+	g.CollisionSystem = collisionSystem
+}
+
 func (g *Game) handlePhysics() {
 	if g.PhysicsSystem != nil {
 		g.PhysicsSystem.Update()
+	}
+}
+
+func (g *Game) handleCollision() {
+	if g.CollisionSystem != nil {
+		g.CollisionSystem.Update()
 	}
 }
