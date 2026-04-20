@@ -53,12 +53,13 @@ func (FloorObstacle) IsGravityEnabled() bool {
 	return false
 }
 
-func FloorObstaclePrefab(sprite *engine.Spritesheet, pos rl.Vector2, height uint) func() *FloorObstacle {
-	return func() *FloorObstacle {
+func FloorObstaclePrefab(sprite *engine.Spritesheet, pos rl.Vector2) func(height uint, velocity rl.Vector2) *FloorObstacle {
+	return func(height uint, velocity rl.Vector2) *FloorObstacle {
 		return &FloorObstacle{
 			Sprite:   sprite,
 			Position: pos,
 			Height:   height,
+			Velocity: velocity,
 		}
 	}
 }

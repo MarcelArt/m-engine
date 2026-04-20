@@ -7,13 +7,13 @@ import (
 )
 
 type SceneManager struct {
-	scenes       map[string]Scene
+	scenes       map[string]IScene
 	currentScene string
 }
 
 func NewSceneManager() *SceneManager {
 	return &SceneManager{
-		scenes:       make(map[string]Scene),
+		scenes:       make(map[string]IScene),
 		currentScene: "",
 	}
 }
@@ -38,7 +38,7 @@ func (sm *SceneManager) LoadScene(g *Game, sceneID string) {
 	sm.scenes[sceneID].Start(g)
 }
 
-func (sm *SceneManager) Register(sceneID string, scene Scene) {
+func (sm *SceneManager) Register(sceneID string, scene IScene) {
 	sm.scenes[sceneID] = scene
 }
 
@@ -48,4 +48,8 @@ func (sm *SceneManager) Unregister(sceneID string) {
 
 func (sm *SceneManager) SetDefaultScene(sceneID string) {
 	sm.currentScene = sceneID
+}
+
+func (sm *SceneManager) GetCurrentScene() IScene {
+	return sm.scenes[sm.currentScene]
 }

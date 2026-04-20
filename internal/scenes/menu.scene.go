@@ -9,12 +9,10 @@ import (
 )
 
 type MenuScene struct {
-	Entities []engine.Entity
+	engine.Scene
 }
 
 func (m *MenuScene) Start(g *engine.Game) {
-	m.Entities = make([]engine.Entity, 0)
-
 	newGameBtn := &entities.Button{
 		Rect:       rl.NewRectangle(300, 200, 200, 50),
 		Text:       "New Game",
@@ -47,22 +45,22 @@ func (m *MenuScene) Start(g *engine.Game) {
 		},
 	}
 
-	m.Entities = append(m.Entities, newGameBtn)
-	m.Entities = append(m.Entities, settingsBtn)
-	m.Entities = append(m.Entities, exitBtn)
+	m.AddEntity(newGameBtn)
+	m.AddEntity(settingsBtn)
+	m.AddEntity(exitBtn)
 }
 
 func (m *MenuScene) Update(g *engine.Game) {
 	rl.ClearBackground(rl.Black)
 	rl.DrawText("Main Menu", 320, 100, 30, rl.White)
 
-	for _, e := range m.Entities {
+	for _, e := range m.GetEntities() {
 		e.Update(g)
 	}
 }
 
 func (m *MenuScene) Destroy(g *engine.Game) {
-	m.Entities = nil
+	m.ClearEntities()
 }
 
-var _ engine.Scene = &MenuScene{}
+var _ engine.IScene = &MenuScene{}

@@ -7,7 +7,7 @@ import (
 )
 
 type FlappyScene struct {
-	Entities []engine.Entity
+	engine.Scene
 }
 
 func (s *FlappyScene) Start(g *engine.Game) {
@@ -17,34 +17,26 @@ func (s *FlappyScene) Start(g *engine.Game) {
 		Sprite:    engine.NewSpritesheet("assets/Bird1-7.png", rl.NewVector2(16, 16), 3),
 	}
 
-	ceilObstacle := &entities.CeilingObstacle{
-		Sprite:   engine.NewSpritesheet("assets/PipeStyle1.png", rl.NewVector2(32, 20), 3),
-		Position: rl.NewVector2(500, 0),
-		Velocity: rl.NewVector2(-200, 0),
-		Height:   5,
-	}
-	floorObstacle := &entities.FloorObstacle{
-		Sprite:   engine.NewSpritesheet("assets/PipeStyle1.png", rl.NewVector2(32, 20), 3),
-		Position: rl.NewVector2(500, 0),
-		Velocity: rl.NewVector2(-200, 0),
-		Height:   8,
+	obstacleSprite := engine.NewSpritesheet("assets/PipeStyle1.png", rl.NewVector2(32, 20), 3)
+	spawner := &entities.ObstacleSpawner{
+		Position:      rl.NewVector2(900, 0),
+		SpawnRate:     2,
+		FloorObstacle: entities.FloorObstaclePrefab(obstacleSprite, rl.NewVector2(900, 0)),
+		CeilObstacle:  entities.CeilingObstaclePrefab(obstacleSprite, rl.NewVector2(900, 0)),
 	}
 
-	s.Entities = append(s.Entities, flappyBird)
-	s.Entities = append(s.Entities, ceilObstacle)
-	s.Entities = append(s.Entities, floorObstacle)
+	s.AddEntity(flappyBird)
+	s.AddEntity(spawner)
 
 	physics := engine.NewPhysicsSystem(rl.NewVector2(0, 1), 800)
 	physics.AddEntity(flappyBird)
-	physics.AddEntity(ceilObstacle)
-	physics.AddEntity(floorObstacle)
 	g.SetPhysicsSystem(physics)
 }
 
 func (s *FlappyScene) Update(g *engine.Game) {
 	rl.ClearBackground(rl.RayWhite)
 
-	for _, e := range s.Entities {
+	for _, e := range s.GetEntities() {
 		e.Update(g)
 	}
 }
@@ -52,4 +44,4 @@ func (s *FlappyScene) Update(g *engine.Game) {
 func (s *FlappyScene) Destroy(g *engine.Game) {
 }
 
-var _ engine.Scene = &FlappyScene{}
+var _ engine.IScene = &FlappyScene{}

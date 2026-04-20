@@ -52,12 +52,13 @@ func (CeilingObstacle) IsGravityEnabled() bool {
 	return false
 }
 
-func CeilingObstaclePrefab(sprite *engine.Spritesheet, pos rl.Vector2, height uint) func() *CeilingObstacle {
-	return func() *CeilingObstacle {
+func CeilingObstaclePrefab(sprite *engine.Spritesheet, pos rl.Vector2) func(height uint, velocity rl.Vector2) *CeilingObstacle {
+	return func(height uint, velocity rl.Vector2) *CeilingObstacle {
 		return &CeilingObstacle{
 			Sprite:   sprite,
 			Position: pos,
 			Height:   height,
+			Velocity: velocity,
 		}
 	}
 }
