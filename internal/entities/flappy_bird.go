@@ -9,6 +9,7 @@ type FlappyBird struct {
 	Position  rl.Vector2
 	Velocity  rl.Vector2
 	JumpForce float32
+	Sprite    *engine.Spritesheet
 }
 
 func (f *FlappyBird) Start(g *engine.Game) {
@@ -21,10 +22,12 @@ func (f *FlappyBird) Update(g *engine.Game) {
 		f.Velocity.Y = -f.JumpForce
 	}
 
-	rl.DrawRectangle(int32(f.Position.X), int32(f.Position.Y), 100, 100, rl.Blue)
+	// rl.DrawRectangle(int32(f.Position.X), int32(f.Position.Y), 100, 100, rl.Blue)
+	f.Sprite.DrawTile(0, f.Position, rl.White)
 }
 
 func (f *FlappyBird) Destroy(g *engine.Game) {
+	f.Sprite = nil
 }
 
 func (f *FlappyBird) GetPosition() rl.Vector2 {

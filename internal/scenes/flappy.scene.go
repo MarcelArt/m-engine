@@ -14,6 +14,7 @@ func (s *FlappyScene) Start(g *engine.Game) {
 	flappyBird := &entities.FlappyBird{
 		Position:  rl.NewVector2(350, 100),
 		JumpForce: 400,
+		Sprite:    engine.NewSpritesheet("assets/Bird1-7.png", rl.NewVector2(16, 16), 3),
 	}
 
 	s.Entities = append(s.Entities, flappyBird)
