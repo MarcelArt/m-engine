@@ -1,0 +1,65 @@
+package entities
+
+import (
+	"log"
+
+	"github.com/MarcelArt/m-engine/pkg/engine"
+	rl "github.com/gen2brain/raylib-go/raylib"
+)
+
+type SafeGap struct {
+	Rect     rl.Rectangle
+	Velocity rl.Vector2
+}
+
+func (s *SafeGap) Start(g *engine.Game) {}
+
+func (s *SafeGap) Update(g *engine.Game) {}
+
+func (s *SafeGap) Destroy(g *engine.Game) {}
+
+func (s *SafeGap) GetPosition() rl.Vector2 {
+	return rl.NewVector2(s.Rect.X, s.Rect.Y)
+}
+
+func (s *SafeGap) GetVelocity() rl.Vector2 {
+	return s.Velocity
+}
+
+func (s *SafeGap) SetPosition(pos rl.Vector2) {
+	s.Rect.X = pos.X
+	s.Rect.Y = pos.Y
+}
+
+func (s *SafeGap) SetVelocity(vel rl.Vector2) {
+	s.Velocity = vel
+}
+
+func (s *SafeGap) IsGravityEnabled() bool {
+	return false
+}
+
+func (s *SafeGap) GetColliderRect() rl.Rectangle {
+	return s.Rect
+}
+
+func (s *SafeGap) SetColliderRect(rect rl.Rectangle) {
+	s.Rect = rect
+}
+
+func (s *SafeGap) OnCollision(other engine.RectCollidable) {
+	log.Println("+1")
+}
+
+func SafeGapPrefab() func(rect rl.Rectangle, velocity rl.Vector2) *SafeGap {
+	return func(rect rl.Rectangle, velocity rl.Vector2) *SafeGap {
+		return &SafeGap{
+			Rect:     rect,
+			Velocity: velocity,
+		}
+	}
+}
+
+var _ engine.Entity = &SafeGap{}
+var _ engine.RectCollidable = &SafeGap{}
+var _ engine.PhysicsObject = &SafeGap{}

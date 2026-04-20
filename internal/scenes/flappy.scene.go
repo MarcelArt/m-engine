@@ -24,6 +24,7 @@ func (s *FlappyScene) Start(g *engine.Game) {
 		SpawnRate:     2,
 		FloorObstacle: entities.FloorObstaclePrefab(obstacleSprite, rl.NewVector2(900, 0)),
 		CeilObstacle:  entities.CeilingObstaclePrefab(obstacleSprite, rl.NewVector2(900, 0)),
+		SafeGap:       entities.SafeGapPrefab(),
 	}
 
 	s.AddEntity(flappyBird)

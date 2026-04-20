@@ -71,7 +71,6 @@ func (o *FloorObstacle) GetColliderRect() rl.Rectangle {
 		o.Sprite.TileSize.X*o.Sprite.Scale,
 		actualHeight,
 	)
-
 }
 
 func (o *FloorObstacle) SetColliderRect(rl.Rectangle) {}
