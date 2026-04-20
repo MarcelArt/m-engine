@@ -23,7 +23,7 @@ func (p *PhysicsSystem) Update() {
 
 	for _, e := range p.Entities {
 		p.handleGravity(e, dt)
-		p.handleMovement(e, dt)
+		p.handleTranslation(e, dt)
 	}
 }
 
@@ -32,6 +32,9 @@ func (p *PhysicsSystem) AddEntity(e PhysicsObject) {
 }
 
 func (p *PhysicsSystem) handleGravity(e PhysicsObject, dt float32) {
+	if !e.IsGravityEnabled() {
+		return
+	}
 	vel := e.GetVelocity()
 
 	vel.X += p.GravMult * p.Gravity.X * dt
@@ -39,7 +42,7 @@ func (p *PhysicsSystem) handleGravity(e PhysicsObject, dt float32) {
 	e.SetVelocity(vel)
 }
 
-func (p *PhysicsSystem) handleMovement(e PhysicsObject, dt float32) {
+func (p *PhysicsSystem) handleTranslation(e PhysicsObject, dt float32) {
 	pos := e.GetPosition()
 	vel := e.GetVelocity()
 

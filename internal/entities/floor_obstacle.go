@@ -9,6 +9,7 @@ import (
 type FloorObstacle struct {
 	Sprite   *engine.Spritesheet
 	Position rl.Vector2
+	Velocity rl.Vector2
 	Height   uint
 }
 
@@ -29,6 +30,27 @@ func (o *FloorObstacle) Update(g *engine.Game) {
 }
 
 func (o *FloorObstacle) Destroy(g *engine.Game) {
+	o.Sprite = nil
+}
+
+func (o *FloorObstacle) GetPosition() rl.Vector2 {
+	return o.Position
+}
+
+func (o *FloorObstacle) GetVelocity() rl.Vector2 {
+	return o.Velocity
+}
+
+func (o *FloorObstacle) SetPosition(pos rl.Vector2) {
+	o.Position = pos
+}
+
+func (o *FloorObstacle) SetVelocity(vel rl.Vector2) {
+	o.Velocity = vel
+}
+
+func (FloorObstacle) IsGravityEnabled() bool {
+	return false
 }
 
 func FloorObstaclePrefab(sprite *engine.Spritesheet, pos rl.Vector2, height uint) func() *FloorObstacle {

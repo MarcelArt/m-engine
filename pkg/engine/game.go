@@ -1,8 +1,6 @@
 package engine
 
 import (
-	"log"
-
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
@@ -12,7 +10,7 @@ type Game struct {
 	title         string
 	targetFPS     int32
 	SceneManager  *SceneManager
-	physicsSystem *PhysicsSystem
+	PhysicsSystem *PhysicsSystem
 }
 
 func NewGame(width int32, height int32, title string, targetFPS int32) *Game {
@@ -22,7 +20,7 @@ func NewGame(width int32, height int32, title string, targetFPS int32) *Game {
 		title:         title,
 		targetFPS:     targetFPS,
 		SceneManager:  NewSceneManager(),
-		physicsSystem: nil,
+		PhysicsSystem: nil,
 	}
 }
 
@@ -41,12 +39,11 @@ func (g *Game) Start() {
 }
 
 func (g *Game) SetPhysicsSystem(physicSystem *PhysicsSystem) {
-	g.physicsSystem = physicSystem
+	g.PhysicsSystem = physicSystem
 }
 
 func (g *Game) handlePhysics() {
-	if g.physicsSystem != nil {
-		log.Println("physics")
-		g.physicsSystem.Update()
+	if g.PhysicsSystem != nil {
+		g.PhysicsSystem.Update()
 	}
 }

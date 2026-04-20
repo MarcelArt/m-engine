@@ -9,6 +9,7 @@ import (
 type CeilingObstacle struct {
 	Sprite   *engine.Spritesheet
 	Position rl.Vector2
+	Velocity rl.Vector2
 	Height   uint
 }
 
@@ -28,6 +29,27 @@ func (o *CeilingObstacle) Update(g *engine.Game) {
 }
 
 func (o *CeilingObstacle) Destroy(g *engine.Game) {
+	o.Sprite = nil
+}
+
+func (o *CeilingObstacle) GetPosition() rl.Vector2 {
+	return o.Position
+}
+
+func (o *CeilingObstacle) GetVelocity() rl.Vector2 {
+	return o.Velocity
+}
+
+func (o *CeilingObstacle) SetPosition(pos rl.Vector2) {
+	o.Position = pos
+}
+
+func (o *CeilingObstacle) SetVelocity(vel rl.Vector2) {
+	o.Velocity = vel
+}
+
+func (CeilingObstacle) IsGravityEnabled() bool {
+	return false
 }
 
 func CeilingObstaclePrefab(sprite *engine.Spritesheet, pos rl.Vector2, height uint) func() *CeilingObstacle {
