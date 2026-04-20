@@ -8,10 +8,10 @@ type Entity interface {
 	Destroy(g *Game)
 }
 
-type Movable interface {
-	Entity
+type PhysicsObject interface {
 	GetPosition() rl.Vector2
 	GetVelocity() rl.Vector2
 	SetPosition(rl.Vector2)
 	SetVelocity(rl.Vector2)
+	IsGravityEnabled() bool
 }

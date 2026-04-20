@@ -46,4 +46,8 @@ func (f *FlappyBird) SetVelocity(vel rl.Vector2) {
 	f.Velocity = vel
 }
 
+func (f *FlappyBird) IsGravityEnabled() bool {
+	return true
+}
+
 var _ engine.Entity = &FlappyBird{}

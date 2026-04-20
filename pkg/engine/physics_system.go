@@ -7,14 +7,14 @@ import (
 type PhysicsSystem struct {
 	Gravity  rl.Vector2
 	GravMult float32
-	Entities []Movable
+	Entities []PhysicsObject
 }
 
 func NewPhysicsSystem(gravity rl.Vector2, gravMult float32) *PhysicsSystem {
 	return &PhysicsSystem{
 		Gravity:  gravity,
 		GravMult: gravMult,
-		Entities: make([]Movable, 0),
+		Entities: make([]PhysicsObject, 0),
 	}
 }
 
@@ -23,23 +23,28 @@ func (p *PhysicsSystem) Update() {
 
 	for _, e := range p.Entities {
 		p.handleGravity(e, dt)
+		p.handleMovement(e, dt)
 	}
 }
 
-func (p *PhysicsSystem) AddEntity(e Movable) {
+func (p *PhysicsSystem) AddEntity(e PhysicsObject) {
 	p.Entities = append(p.Entities, e)
 }
 
-func (p *PhysicsSystem) handleGravity(e Movable, dt float32) {
-	pos := e.GetPosition()
+func (p *PhysicsSystem) handleGravity(e PhysicsObject, dt float32) {
 	vel := e.GetVelocity()
 
 	vel.X += p.GravMult * p.Gravity.X * dt
-	pos.X += vel.X * dt
-
 	vel.Y += p.GravMult * p.Gravity.Y * dt
+	e.SetVelocity(vel)
+}
+
+func (p *PhysicsSystem) handleMovement(e PhysicsObject, dt float32) {
+	pos := e.GetPosition()
+	vel := e.GetVelocity()
+
+	pos.X += vel.X * dt
 	pos.Y += vel.Y * dt
 
 	e.SetPosition(pos)
-	e.SetVelocity(vel)
 }
