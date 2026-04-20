@@ -41,6 +41,7 @@ func (o *ObstacleSpawner) Update(g *engine.Game) {
 
 		g.SceneManager.GetCurrentScene().AddEntity(ceilObstacle)
 		g.SceneManager.GetCurrentScene().AddEntity(floorObstacle)
+		g.SceneManager.GetCurrentScene().AddEntity(safeGap)
 	}
 }
 
