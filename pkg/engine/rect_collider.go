@@ -7,3 +7,11 @@ type RectCollidable interface {
 	GetColliderRect() rl.Rectangle
 	SetColliderRect(rect rl.Rectangle)
 }
+
+type CollisionEnterHandler interface {
+	OnCollisionEnter(other RectCollidable)
+}
+
+type CollisionExitHandler interface {
+	OnCollisionExit(other RectCollidable)
+}

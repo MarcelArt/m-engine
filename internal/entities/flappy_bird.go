@@ -60,6 +60,14 @@ func (f *FlappyBird) SetColliderRect(rect rl.Rectangle) {
 	// f.ColliderRect = rect
 }
 
+func (f *FlappyBird) OnCollisionEnter(other engine.RectCollidable) {
+	log.Println("Collision ENTER with", other)
+}
+
+func (f *FlappyBird) OnCollisionExit(other engine.RectCollidable) {
+	log.Println("Collision EXIT with", other)
+}
+
 func (f *FlappyBird) OnCollision(other engine.RectCollidable) {
 	log.Println("Collision with", other)
 }
