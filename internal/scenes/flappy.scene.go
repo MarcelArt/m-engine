@@ -41,7 +41,13 @@ func (s *FlappyScene) Start(g *engine.Game) {
 		State:         state,
 	}
 
+	background := &entities.Background{
+		Texture: rl.LoadTexture("assets/Background2.png"),
+	}
+
 	s.AddUIEntity(scoreTxt)
+
+	s.AddEntity(background)
 	s.AddEntity(flappyBird)
 	s.AddEntity(spawner)
 	s.AddEntity(state)
