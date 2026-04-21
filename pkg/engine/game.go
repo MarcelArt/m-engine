@@ -14,16 +14,19 @@ type Game struct {
 	SceneManager    *SceneManager
 	PhysicsSystem   *PhysicsSystem
 	CollisionSystem *CollisionSystem
+	GameSave        GameSave
 }
 
 func NewGame(width int32, height int32, title string, targetFPS int32) *Game {
 	return &Game{
-		width:         width,
-		height:        height,
-		title:         title,
-		targetFPS:     targetFPS,
-		SceneManager:  NewSceneManager(),
-		PhysicsSystem: nil,
+		width:           width,
+		height:          height,
+		title:           title,
+		targetFPS:       targetFPS,
+		SceneManager:    NewSceneManager(),
+		PhysicsSystem:   nil,
+		CollisionSystem: nil,
+		GameSave:        nil,
 	}
 }
 
@@ -48,6 +51,10 @@ func (g *Game) SetPhysicsSystem(physicSystem *PhysicsSystem) {
 
 func (g *Game) SetCollisionSystem(collisionSystem *CollisionSystem) {
 	g.CollisionSystem = collisionSystem
+}
+
+func (g *Game) SetGameSave(gameSave GameSave) {
+	g.GameSave = gameSave
 }
 
 func (g *Game) ExitGame() {

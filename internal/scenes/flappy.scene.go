@@ -53,6 +53,14 @@ func (s *FlappyScene) Start(g *engine.Game) {
 	collision := engine.NewCollisionSystem(true)
 	collision.AddRectCollidable(flappyBird)
 	g.SetCollisionSystem(collision)
+
+	for _, e := range s.GetEntities() {
+		e.Start(g)
+	}
+
+	for _, ui := range s.GetUIEntities() {
+		ui.Start(g)
+	}
 }
 
 func (s *FlappyScene) Update(g *engine.Game) {

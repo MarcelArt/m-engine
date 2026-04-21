@@ -11,5 +11,9 @@ func main() {
 	game.SceneManager.Register("menu", &scenes.MenuScene{})
 	game.SceneManager.Register("flappy", &scenes.FlappyScene{})
 	game.SceneManager.SetDefaultScene("flappy")
+
+	gameSave := engine.NewJSONSaveFile("save.json")
+	game.SetGameSave(gameSave)
+
 	game.Start()
 }
