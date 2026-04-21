@@ -1,8 +1,6 @@
 package entities
 
 import (
-	"log"
-
 	"github.com/MarcelArt/m-engine/pkg/engine"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
@@ -10,13 +8,16 @@ import (
 type SafeGap struct {
 	Rect     rl.Rectangle
 	Velocity rl.Vector2
+	State    *FlappyGameState
 }
 
 func (s *SafeGap) Start(g *engine.Game) {}
 
 func (s *SafeGap) Update(g *engine.Game) {}
 
-func (s *SafeGap) Destroy(g *engine.Game) {}
+func (s *SafeGap) Destroy(g *engine.Game) {
+	s.State = nil
+}
 
 func (s *SafeGap) GetPosition() rl.Vector2 {
 	return rl.NewVector2(s.Rect.X, s.Rect.Y)
@@ -47,15 +48,21 @@ func (s *SafeGap) SetColliderRect(rect rl.Rectangle) {
 	s.Rect = rect
 }
 
-func (s *SafeGap) OnCollision(other engine.RectCollidable) {
-	log.Println("+1")
+func (s *SafeGap) OnCollision(g *engine.Game, other engine.RectCollidable) {
 }
 
-func SafeGapPrefab() func(rect rl.Rectangle, velocity rl.Vector2) *SafeGap {
-	return func(rect rl.Rectangle, velocity rl.Vector2) *SafeGap {
+func (s *SafeGap) OnCollisionExit(g *engine.Game, other engine.RectCollidable) {
+	if _, ok := other.(*FlappyBird); ok {
+		s.State.ScoreUp()
+	}
+}
+
+func SafeGapPrefab() func(rect rl.Rectangle, velocity rl.Vector2, state *FlappyGameState) *SafeGap {
+	return func(rect rl.Rectangle, velocity rl.Vector2, state *FlappyGameState) *SafeGap {
 		return &SafeGap{
 			Rect:     rect,
 			Velocity: velocity,
+			State:    state,
 		}
 	}
 }

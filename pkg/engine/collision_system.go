@@ -8,21 +8,21 @@ type collisionPair struct {
 }
 
 type CollisionSystem struct {
-	RectColliders     []RectCollidable
-	activeCollisions  map[collisionPair]struct{}
-	IsDebug           bool
+	RectColliders    []RectCollidable
+	activeCollisions map[collisionPair]struct{}
+	IsDebug          bool
 }
 
 func NewCollisionSystem(isDebug bool) *CollisionSystem {
 	return &CollisionSystem{
-		IsDebug:       isDebug,
-		RectColliders: make([]RectCollidable, 0),
+		IsDebug:          isDebug,
+		RectColliders:    make([]RectCollidable, 0),
 		activeCollisions: make(map[collisionPair]struct{}),
 	}
 }
 
-func (c *CollisionSystem) Update() {
-	c.checkCollisionLoop()
+func (c *CollisionSystem) Update(g *Game) {
+	c.checkCollisionLoop(g)
 	c.drawDebug()
 }
 
@@ -30,15 +30,15 @@ func (c *CollisionSystem) AddRectCollidable(collider RectCollidable) {
 	c.RectColliders = append(c.RectColliders, collider)
 }
 
-func (c *CollisionSystem) RemoveRectCollidable(entity RectCollidable) {
+func (c *CollisionSystem) RemoveRectCollidable(g *Game, entity RectCollidable) {
 	// Fire exit callbacks for all active collisions involving this entity
 	for pair := range c.activeCollisions {
 		if pair.entityA == entity || pair.entityB == entity {
 			if handler, ok := pair.entityA.(CollisionExitHandler); ok && pair.entityB == entity {
-				handler.OnCollisionExit(pair.entityB)
+				handler.OnCollisionExit(g, pair.entityB)
 			}
 			if handler, ok := pair.entityB.(CollisionExitHandler); ok && pair.entityA == entity {
-				handler.OnCollisionExit(pair.entityA)
+				handler.OnCollisionExit(g, pair.entityA)
 			}
 		}
 	}
@@ -52,7 +52,7 @@ func (c *CollisionSystem) RemoveRectCollidable(entity RectCollidable) {
 	}
 }
 
-func (c *CollisionSystem) checkCollisionLoop() {
+func (c *CollisionSystem) checkCollisionLoop(g *Game) {
 	currentCollisions := make(map[collisionPair]struct{})
 
 	// Build current frame collisions and fire enter callbacks
@@ -68,16 +68,16 @@ func (c *CollisionSystem) checkCollisionLoop() {
 				// OnEnter: new collision
 				if _, wasActive := c.activeCollisions[pair]; !wasActive {
 					if handler, ok := collider.(CollisionEnterHandler); ok {
-						handler.OnCollisionEnter(other)
+						handler.OnCollisionEnter(g, other)
 					}
 					if handler, ok := other.(CollisionEnterHandler); ok {
-						handler.OnCollisionEnter(collider)
+						handler.OnCollisionEnter(g, collider)
 					}
 				}
 
 				// OnCollision: continuous callback
-				collider.OnCollision(other)
-				other.OnCollision(collider)
+				collider.OnCollision(g, other)
+				other.OnCollision(g, collider)
 			}
 		}
 	}
@@ -86,10 +86,10 @@ func (c *CollisionSystem) checkCollisionLoop() {
 	for pair := range c.activeCollisions {
 		if _, stillActive := currentCollisions[pair]; !stillActive {
 			if handler, ok := pair.entityA.(CollisionExitHandler); ok {
-				handler.OnCollisionExit(pair.entityB)
+				handler.OnCollisionExit(g, pair.entityB)
 			}
 			if handler, ok := pair.entityB.(CollisionExitHandler); ok {
-				handler.OnCollisionExit(pair.entityA)
+				handler.OnCollisionExit(g, pair.entityA)
 			}
 		}
 	}

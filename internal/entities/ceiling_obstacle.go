@@ -8,6 +8,7 @@ import (
 
 type CeilingObstacle struct {
 	Sprite   *engine.Spritesheet
+	State    *FlappyGameState
 	Position rl.Vector2
 	Velocity rl.Vector2
 	Height   uint
@@ -63,15 +64,22 @@ func (o *CeilingObstacle) GetColliderRect() rl.Rectangle {
 
 func (o *CeilingObstacle) SetColliderRect(rl.Rectangle) {}
 
-func (o *CeilingObstacle) OnCollision(other engine.RectCollidable) {}
+func (o *CeilingObstacle) OnCollision(g *engine.Game, other engine.RectCollidable) {}
 
-func CeilingObstaclePrefab(sprite *engine.Spritesheet, pos rl.Vector2) func(height uint, velocity rl.Vector2) *CeilingObstacle {
-	return func(height uint, velocity rl.Vector2) *CeilingObstacle {
+func (o *CeilingObstacle) OnCollisionEnter(g *engine.Game, other engine.RectCollidable) {
+	if _, ok := other.(*FlappyBird); ok {
+		o.State.GameOver()
+	}
+}
+
+func CeilingObstaclePrefab(sprite *engine.Spritesheet, pos rl.Vector2) func(height uint, velocity rl.Vector2, state *FlappyGameState) *CeilingObstacle {
+	return func(height uint, velocity rl.Vector2, state *FlappyGameState) *CeilingObstacle {
 		return &CeilingObstacle{
 			Sprite:   sprite,
 			Position: pos,
 			Height:   height,
 			Velocity: velocity,
+			State:    state,
 		}
 	}
 }

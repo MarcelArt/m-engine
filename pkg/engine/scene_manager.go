@@ -33,6 +33,9 @@ func (sm *SceneManager) Update(g *Game) {
 }
 
 func (sm *SceneManager) LoadScene(g *Game, sceneID string) {
+	g.PhysicsSystem = nil
+	g.CollisionSystem = nil
+	sm.GetCurrentScene().ClearEntities()
 	sm.scenes[sm.currentScene].Destroy(g)
 	sm.currentScene = sceneID
 	sm.scenes[sceneID].Start(g)

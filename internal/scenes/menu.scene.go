@@ -42,6 +42,7 @@ func (m *MenuScene) Start(g *engine.Game) {
 		HoverColor: rl.Gray,
 		OnClick: func() {
 			log.Println("Exit clicked")
+			g.ExitGame()
 		},
 	}
 

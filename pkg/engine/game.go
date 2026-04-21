@@ -1,6 +1,8 @@
 package engine
 
 import (
+	"os"
+
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
@@ -48,6 +50,11 @@ func (g *Game) SetCollisionSystem(collisionSystem *CollisionSystem) {
 	g.CollisionSystem = collisionSystem
 }
 
+func (g *Game) ExitGame() {
+	rl.CloseWindow()
+	os.Exit(0)
+}
+
 func (g *Game) handlePhysics() {
 	if g.PhysicsSystem != nil {
 		g.PhysicsSystem.Update()
@@ -56,6 +63,6 @@ func (g *Game) handlePhysics() {
 
 func (g *Game) handleCollision() {
 	if g.CollisionSystem != nil {
-		g.CollisionSystem.Update()
+		g.CollisionSystem.Update(g)
 	}
 }

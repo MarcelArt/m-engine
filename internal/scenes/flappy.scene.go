@@ -1,6 +1,8 @@
 package scenes
 
 import (
+	"log"
+
 	"github.com/MarcelArt/m-engine/internal/entities"
 	"github.com/MarcelArt/m-engine/pkg/engine"
 	rl "github.com/gen2brain/raylib-go/raylib"
@@ -11,6 +13,19 @@ type FlappyScene struct {
 }
 
 func (s *FlappyScene) Start(g *engine.Game) {
+	state := &entities.FlappyGameState{
+		Score:      0,
+		IsGameOver: false,
+	}
+
+	screenWidth := rl.GetScreenWidth()
+	scoreTxt := &entities.ScoreText{
+		State:    state,
+		Position: rl.NewVector2(float32(screenWidth/2), 50),
+		FontSize: 48,
+		Color:    rl.Black,
+	}
+
 	flappyBird := &entities.FlappyBird{
 		Position:  rl.NewVector2(350, 100),
 		JumpForce: 400,
@@ -25,10 +40,13 @@ func (s *FlappyScene) Start(g *engine.Game) {
 		FloorObstacle: entities.FloorObstaclePrefab(obstacleSprite, rl.NewVector2(900, 0)),
 		CeilObstacle:  entities.CeilingObstaclePrefab(obstacleSprite, rl.NewVector2(900, 0)),
 		SafeGap:       entities.SafeGapPrefab(),
+		State:         state,
 	}
 
+	s.AddUIEntity(scoreTxt)
 	s.AddEntity(flappyBird)
 	s.AddEntity(spawner)
+	s.AddEntity(state)
 
 	physics := engine.NewPhysicsSystem(rl.NewVector2(0, 1), 800)
 	physics.AddEntity(flappyBird)
@@ -45,9 +63,17 @@ func (s *FlappyScene) Update(g *engine.Game) {
 	for _, e := range s.GetEntities() {
 		e.Update(g)
 	}
+
+	log.Println(len(s.GetUIEntities()))
+	for _, ui := range s.GetUIEntities() {
+		ui.Update(g)
+	}
 }
 
 func (s *FlappyScene) Destroy(g *engine.Game) {
+	// g.PhysicsSystem = nil
+	// g.CollisionSystem = nil
+	// g.SceneManager.GetCurrentScene().ClearEntities()
 }
 
 var _ engine.IScene = &FlappyScene{}

@@ -8,6 +8,7 @@ import (
 
 type FloorObstacle struct {
 	Sprite   *engine.Spritesheet
+	State    *FlappyGameState
 	Position rl.Vector2
 	Velocity rl.Vector2
 	Height   uint
@@ -75,15 +76,23 @@ func (o *FloorObstacle) GetColliderRect() rl.Rectangle {
 
 func (o *FloorObstacle) SetColliderRect(rl.Rectangle) {}
 
-func (o *FloorObstacle) OnCollision(other engine.RectCollidable) {}
+func (o *FloorObstacle) OnCollision(g *engine.Game, other engine.RectCollidable) {}
 
-func FloorObstaclePrefab(sprite *engine.Spritesheet, pos rl.Vector2) func(height uint, velocity rl.Vector2) *FloorObstacle {
-	return func(height uint, velocity rl.Vector2) *FloorObstacle {
+func (o *FloorObstacle) OnCollisionEnter(g *engine.Game, other engine.RectCollidable) {
+	if _, ok := other.(*FlappyBird); ok {
+		o.State.GameOver()
+		g.SceneManager.LoadScene(g, "menu")
+	}
+}
+
+func FloorObstaclePrefab(sprite *engine.Spritesheet, pos rl.Vector2) func(height uint, velocity rl.Vector2, state *FlappyGameState) *FloorObstacle {
+	return func(height uint, velocity rl.Vector2, state *FlappyGameState) *FloorObstacle {
 		return &FloorObstacle{
 			Sprite:   sprite,
 			Position: pos,
 			Height:   height,
 			Velocity: velocity,
+			State:    state,
 		}
 	}
 }
