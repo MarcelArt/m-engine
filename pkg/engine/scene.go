@@ -34,4 +34,5 @@ func (s *Scene) GetUIEntities() []Entity {
 
 func (s *Scene) ClearEntities() {
 	s.entities = nil
+	s.uiEntities = nil
 }

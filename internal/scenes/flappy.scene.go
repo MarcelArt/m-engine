@@ -1,8 +1,6 @@
 package scenes
 
 import (
-	"log"
-
 	"github.com/MarcelArt/m-engine/internal/entities"
 	"github.com/MarcelArt/m-engine/pkg/engine"
 	rl "github.com/gen2brain/raylib-go/raylib"
@@ -64,7 +62,6 @@ func (s *FlappyScene) Update(g *engine.Game) {
 		e.Update(g)
 	}
 
-	log.Println(len(s.GetUIEntities()))
 	for _, ui := range s.GetUIEntities() {
 		ui.Update(g)
 	}

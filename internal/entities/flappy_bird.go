@@ -1,8 +1,6 @@
 package entities
 
 import (
-	"log"
-
 	"github.com/MarcelArt/m-engine/pkg/engine"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
@@ -61,7 +59,7 @@ func (f *FlappyBird) SetColliderRect(rect rl.Rectangle) {
 }
 
 func (f *FlappyBird) OnCollisionEnter(g *engine.Game, other engine.RectCollidable) {
-	log.Println("Collision ENTER with", other)
+	// log.Println("Collision ENTER with", other)
 }
 
 func (f *FlappyBird) OnCollisionExit(g *engine.Game, other engine.RectCollidable) {
