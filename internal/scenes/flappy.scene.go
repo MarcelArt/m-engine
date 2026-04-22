@@ -47,7 +47,8 @@ func (s *FlappyScene) Start(g *engine.Game) {
 
 	s.AddUIEntity(scoreTxt)
 
-	s.AddEntity(background)
+	s.AddBGEntity(background)
+
 	s.AddEntity(flappyBird)
 	s.AddEntity(spawner)
 	s.AddEntity(state)

@@ -25,10 +25,12 @@ func (sm *SceneManager) Start(g *Game) {
 
 	sm.scenes[sm.currentScene].Start(g)
 
+	for _, bg := range sm.scenes[sm.currentScene].GetBGEntities() {
+		bg.Start(g)
+	}
 	for _, e := range sm.scenes[sm.currentScene].GetEntities() {
 		e.Start(g)
 	}
-
 	for _, ui := range sm.scenes[sm.currentScene].GetUIEntities() {
 		ui.Start(g)
 	}
@@ -36,14 +38,19 @@ func (sm *SceneManager) Start(g *Game) {
 
 func (sm *SceneManager) Update(g *Game) {
 	rl.BeginDrawing()
+
 	sm.scenes[sm.currentScene].Update(g)
+
+	for _, bg := range sm.scenes[sm.currentScene].GetBGEntities() {
+		bg.Update(g)
+	}
 	for _, e := range sm.scenes[sm.currentScene].GetEntities() {
 		e.Update(g)
 	}
-
 	for _, ui := range sm.scenes[sm.currentScene].GetUIEntities() {
 		ui.Update(g)
 	}
+
 	rl.EndDrawing()
 }
 

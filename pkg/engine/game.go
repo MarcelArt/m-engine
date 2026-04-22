@@ -39,9 +39,9 @@ func (g *Game) Start() {
 
 	g.SceneManager.Start(g)
 	for !rl.WindowShouldClose() {
+		g.SceneManager.Update(g)
 		g.handlePhysics()
 		g.handleCollision()
-		g.SceneManager.Update(g)
 	}
 }
 

@@ -4,13 +4,17 @@ type IScene interface {
 	Entity
 	AddEntity(e Entity)
 	GetEntities() []Entity
+	AddUIEntity(e Entity)
 	GetUIEntities() []Entity
+	AddBGEntity(e Entity)
+	GetBGEntities() []Entity
 	ClearEntities()
 }
 
 type Scene struct {
 	entities   []Entity
 	uiEntities []Entity
+	bgEntities []Entity
 }
 
 func (s *Scene) AddEntity(e Entity) {
@@ -31,6 +35,14 @@ func (s *Scene) AddUIEntity(e Entity) {
 
 func (s *Scene) GetUIEntities() []Entity {
 	return s.uiEntities
+}
+
+func (s *Scene) AddBGEntity(e Entity) {
+	s.bgEntities = append(s.bgEntities, e)
+}
+
+func (s *Scene) GetBGEntities() []Entity {
+	return s.bgEntities
 }
 
 func (s *Scene) ClearEntities() {

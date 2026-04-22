@@ -1,6 +1,8 @@
 package engine
 
-import rl "github.com/gen2brain/raylib-go/raylib"
+import (
+	rl "github.com/gen2brain/raylib-go/raylib"
+)
 
 type collisionPair struct {
 	entityA RectCollidable
