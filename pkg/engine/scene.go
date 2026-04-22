@@ -4,6 +4,7 @@ type IScene interface {
 	Entity
 	AddEntity(e Entity)
 	GetEntities() []Entity
+	GetUIEntities() []Entity
 	ClearEntities()
 }
 

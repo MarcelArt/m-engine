@@ -1,6 +1,8 @@
 package entities
 
 import (
+	"log"
+
 	"github.com/MarcelArt/m-engine/pkg/engine"
 )
 
@@ -16,6 +18,7 @@ func (f *FlappyGameState) Start(g *engine.Game) {
 	f.IsGameOver = false
 
 	f.LoadSaveFile(g)
+	log.Println("f.HighScore :>> ", f.HighScore)
 }
 
 func (f *FlappyGameState) Update(g *engine.Game) {
@@ -55,6 +58,7 @@ func (f *FlappyGameState) LoadSaveFile(g *engine.Game) {
 		return
 	}
 
+	log.Println("highScore :>> ", highScore)
 	f.HighScore = uint(highScore)
 }
 

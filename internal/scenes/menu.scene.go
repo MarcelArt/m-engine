@@ -54,10 +54,6 @@ func (m *MenuScene) Start(g *engine.Game) {
 func (m *MenuScene) Update(g *engine.Game) {
 	rl.ClearBackground(rl.Black)
 	rl.DrawText("Main Menu", 320, 100, 30, rl.White)
-
-	for _, e := range m.GetEntities() {
-		e.Update(g)
-	}
 }
 
 func (m *MenuScene) Destroy(g *engine.Game) {
