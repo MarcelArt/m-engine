@@ -1,7 +1,7 @@
 package entities
 
 import (
-	"github.com/MarcelArt/m-engine/internal/enums"
+	"github.com/MarcelArt/m-engine/examples/internal/enums"
 	"github.com/MarcelArt/m-engine/pkg/engine"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )

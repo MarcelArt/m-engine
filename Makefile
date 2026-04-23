@@ -1,5 +1,5 @@
-go:
-	@go run .
+flappy:
+	@go run examples/main.go
 
-dev:
-	@air
+dev-flappy:
+	@air examples/main.go

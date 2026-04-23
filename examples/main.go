@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/MarcelArt/m-engine/internal/scenes"
+	"github.com/MarcelArt/m-engine/examples/internal/scenes"
 	"github.com/MarcelArt/m-engine/pkg/engine"
 )
 
