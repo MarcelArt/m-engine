@@ -43,6 +43,10 @@ func (f *FlappyBird) Update(g *engine.Game) {
 		}
 	}
 	f.Sprite.DrawTile(f.animationIndex, f.Position, rl.White)
+
+	if int(f.Position.Y) > rl.GetScreenHeight() || f.Position.Y < 0 {
+		f.State.GameOver()
+	}
 }
 
 func (f *FlappyBird) Destroy(g *engine.Game) {
