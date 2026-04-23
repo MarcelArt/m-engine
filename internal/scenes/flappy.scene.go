@@ -2,6 +2,7 @@ package scenes
 
 import (
 	"github.com/MarcelArt/m-engine/internal/entities"
+	"github.com/MarcelArt/m-engine/internal/enums"
 	"github.com/MarcelArt/m-engine/pkg/engine"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
@@ -11,23 +12,35 @@ type FlappyScene struct {
 }
 
 func (s *FlappyScene) Start(g *engine.Game) {
+	screenHeight := rl.GetScreenHeight()
+	screenWidth := rl.GetScreenWidth()
+
 	state := &entities.FlappyGameState{
-		Score:      0,
-		IsGameOver: false,
+		Score: 0,
+		State: enums.StateMenu,
 	}
 
-	screenWidth := rl.GetScreenWidth()
 	scoreTxt := &entities.ScoreText{
 		State:    state,
 		Position: rl.NewVector2(float32(screenWidth/2), 50),
 		FontSize: 48,
 		Color:    rl.Black,
 	}
+	highScoreTxt := &entities.HighScoreText{
+		State:    state,
+		Position: rl.NewVector2(float32(screenWidth/2), float32(screenHeight/2)+100),
+		FontSize: 36,
+		Color:    rl.Black,
+	}
+	gameOverMsg := &entities.GameOverMsg{
+		State: state,
+	}
 
 	flappyBird := &entities.FlappyBird{
-		Position:  rl.NewVector2(350, 100),
+		Position:  rl.NewVector2(float32(screenWidth/2), float32(screenHeight/2)),
 		JumpForce: 400,
 		Sprite:    engine.NewSpritesheet("assets/Bird1-7.png", rl.NewVector2(16, 16), 3),
+		State:     state,
 		// ColliderRect: rl.NewRectangle(350, 100, 48, 48),
 	}
 
@@ -46,6 +59,8 @@ func (s *FlappyScene) Start(g *engine.Game) {
 	}
 
 	s.AddUIEntity(scoreTxt)
+	s.AddUIEntity(highScoreTxt)
+	s.AddUIEntity(gameOverMsg)
 
 	s.AddBGEntity(background)
 
@@ -54,7 +69,7 @@ func (s *FlappyScene) Start(g *engine.Game) {
 	s.AddEntity(state)
 
 	physics := engine.NewPhysicsSystem(rl.NewVector2(0, 1), 800)
-	physics.AddEntity(flappyBird)
+	// physics.AddEntity(flappyBird)
 	g.SetPhysicsSystem(physics)
 
 	collision := engine.NewCollisionSystem(true)

@@ -1,6 +1,7 @@
 package entities
 
 import (
+	"github.com/MarcelArt/m-engine/internal/enums"
 	"github.com/MarcelArt/m-engine/pkg/engine"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
@@ -19,6 +20,21 @@ func (o *ObstacleSpawner) Start(g *engine.Game) {
 }
 
 func (o *ObstacleSpawner) Update(g *engine.Game) {
+	o.Spawn(g)
+}
+
+func (o *ObstacleSpawner) Destroy(g *engine.Game) {
+	o.State = nil
+	o.CeilObstacle = nil
+	o.FloorObstacle = nil
+	o.SafeGap = nil
+}
+
+func (o *ObstacleSpawner) Spawn(g *engine.Game) {
+	if o.State.State != enums.StatePlaying {
+		return
+	}
+
 	o.timer += rl.GetFrameTime()
 	rng := rl.GetRandomValue(1, 12)
 	if o.timer > o.SpawnRate {
@@ -44,13 +60,6 @@ func (o *ObstacleSpawner) Update(g *engine.Game) {
 		g.SceneManager.GetCurrentScene().AddEntity(floorObstacle)
 		g.SceneManager.GetCurrentScene().AddEntity(safeGap)
 	}
-}
-
-func (o *ObstacleSpawner) Destroy(g *engine.Game) {
-	o.State = nil
-	o.CeilObstacle = nil
-	o.FloorObstacle = nil
-	o.SafeGap = nil
 }
 
 var _ engine.Entity = &ObstacleSpawner{}

@@ -1,33 +1,60 @@
 package entities
 
 import (
+	"github.com/MarcelArt/m-engine/internal/enums"
 	"github.com/MarcelArt/m-engine/pkg/engine"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
 type FlappyBird struct {
-	Position  rl.Vector2
-	Velocity  rl.Vector2
-	JumpForce float32
-	Sprite    *engine.Spritesheet
+	Position       rl.Vector2
+	Velocity       rl.Vector2
+	JumpForce      float32
+	Sprite         *engine.Spritesheet
+	State          *FlappyGameState
+	animationTimer float32
+	animationIndex int
+	animationSPF   float32
 }
 
 func (f *FlappyBird) Start(g *engine.Game) {
 	// Hardcoded for now
 	f.JumpForce = 400
+	f.animationTimer = 0
+	f.animationSPF = 0.2
 }
 
 func (f *FlappyBird) Update(g *engine.Game) {
-	if rl.IsKeyPressed(rl.KeySpace) {
+	dt := rl.GetFrameTime()
+	f.animationTimer += dt
+	spf := f.animationSPF
+
+	if rl.IsKeyPressed(rl.KeySpace) && f.State.State != enums.StateGameOver {
+		f.StartGame(g)
 		f.Velocity.Y = -f.JumpForce
 	}
 
-	// rl.DrawRectangle(int32(f.Position.X), int32(f.Position.Y), 100, 100, rl.Blue)
-	f.Sprite.DrawTile(0, f.Position, rl.White)
+	if f.animationTimer >= spf {
+		f.animationTimer = 0
+		if f.animationIndex >= 3 {
+			f.animationIndex = 0
+		} else {
+			f.animationIndex++
+		}
+	}
+	f.Sprite.DrawTile(f.animationIndex, f.Position, rl.White)
 }
 
 func (f *FlappyBird) Destroy(g *engine.Game) {
 	f.Sprite = nil
+	f.State = nil
+}
+
+func (f *FlappyBird) StartGame(g *engine.Game) {
+	if f.State.State == enums.StateMenu {
+		f.State.State = enums.StatePlaying
+		g.PhysicsSystem.AddEntity(f)
+	}
 }
 
 func (f *FlappyBird) GetPosition() rl.Vector2 {

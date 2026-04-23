@@ -3,35 +3,35 @@ package entities
 import (
 	"log"
 
+	"github.com/MarcelArt/m-engine/internal/enums"
 	"github.com/MarcelArt/m-engine/pkg/engine"
 )
 
 type FlappyGameState struct {
-	Score      uint
-	HighScore  uint
-	IsGameOver bool
-	gameSave   engine.GameSave
+	Score     uint
+	HighScore uint
+	gameSave  engine.GameSave
+	State     int
 }
 
 func (f *FlappyGameState) Start(g *engine.Game) {
 	f.Score = 0
-	f.IsGameOver = false
+	f.State = enums.StateMenu
 
 	f.LoadSaveFile(g)
 	log.Println("f.HighScore :>> ", f.HighScore)
 }
 
 func (f *FlappyGameState) Update(g *engine.Game) {
-	if f.IsGameOver {
-		g.SceneManager.LoadScene(g, "menu")
-		return
-	}
-
+	// if f.State == enums.StateGameOver {
+	// 	g.SceneManager.LoadScene(g, "menu")
+	// 	return
+	// }
 }
 
 func (f *FlappyGameState) Destroy(g *engine.Game) {
 	f.Score = 0
-	f.IsGameOver = false
+	f.State = enums.StateMenu
 }
 
 func (f *FlappyGameState) ScoreUp() {
@@ -39,7 +39,7 @@ func (f *FlappyGameState) ScoreUp() {
 }
 
 func (f *FlappyGameState) GameOver() {
-	f.IsGameOver = true
+	f.State = enums.StateGameOver
 
 	if f.Score > f.HighScore {
 		f.HighScore = f.Score

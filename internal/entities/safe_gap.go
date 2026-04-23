@@ -1,6 +1,7 @@
 package entities
 
 import (
+	"github.com/MarcelArt/m-engine/internal/enums"
 	"github.com/MarcelArt/m-engine/pkg/engine"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
@@ -52,7 +53,7 @@ func (s *SafeGap) OnCollision(g *engine.Game, other engine.RectCollidable) {
 }
 
 func (s *SafeGap) OnCollisionExit(g *engine.Game, other engine.RectCollidable) {
-	if _, ok := other.(*FlappyBird); ok {
+	if _, ok := other.(*FlappyBird); ok && s.State.State == enums.StatePlaying {
 		s.State.ScoreUp()
 	}
 }

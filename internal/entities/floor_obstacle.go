@@ -81,7 +81,6 @@ func (o *FloorObstacle) OnCollision(g *engine.Game, other engine.RectCollidable)
 func (o *FloorObstacle) OnCollisionEnter(g *engine.Game, other engine.RectCollidable) {
 	if _, ok := other.(*FlappyBird); ok {
 		o.State.GameOver()
-		g.SceneManager.LoadScene(g, "menu")
 	}
 }
 

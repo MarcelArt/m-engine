@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	game := engine.NewGame(800, 450, "M-Engine", 60)
+	game := engine.NewGame(671, 1030, "M-Engine", 60)
 
 	game.SceneManager.Register("menu", &scenes.MenuScene{})
 	game.SceneManager.Register("flappy", &scenes.FlappyScene{})
