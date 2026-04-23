@@ -24,13 +24,13 @@ func (s *FlappyScene) Start(g *engine.Game) {
 		State:    state,
 		Position: rl.NewVector2(float32(screenWidth/2), 50),
 		FontSize: 48,
-		Color:    rl.Black,
+		Color:    rl.White,
 	}
 	highScoreTxt := &entities.HighScoreText{
 		State:    state,
 		Position: rl.NewVector2(float32(screenWidth/2), float32(screenHeight/2)+100),
 		FontSize: 36,
-		Color:    rl.Black,
+		Color:    rl.White,
 	}
 	gameOverMsg := &entities.GameOverMsg{
 		State: state,
