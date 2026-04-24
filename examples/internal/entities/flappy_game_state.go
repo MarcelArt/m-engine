@@ -8,18 +8,19 @@ import (
 )
 
 type FlappyGameState struct {
-	Score     uint
-	HighScore uint
-	gameSave  engine.GameSave
-	State     int
+	Score            uint
+	HighScore        uint
+	gameSave         engine.GameSave
+	State            int
+	VelocityModifier float32
 }
 
 func (f *FlappyGameState) Start(g *engine.Game) {
 	f.Score = 0
 	f.State = enums.StateMenu
+	f.VelocityModifier = 0
 
 	f.LoadSaveFile(g)
-	log.Println("f.HighScore :>> ", f.HighScore)
 }
 
 func (f *FlappyGameState) Update(g *engine.Game) {
@@ -35,7 +36,10 @@ func (f *FlappyGameState) Destroy(g *engine.Game) {
 }
 
 func (f *FlappyGameState) ScoreUp() {
+	log.Println("f.VelocityModifier :>> ", f.VelocityModifier)
 	f.Score++
+	f.VelocityModifier += 10
+	log.Println("f.VelocityModifier :>> ", f.VelocityModifier)
 }
 
 func (f *FlappyGameState) GameOver() {
@@ -58,7 +62,6 @@ func (f *FlappyGameState) LoadSaveFile(g *engine.Game) {
 		return
 	}
 
-	log.Println("highScore :>> ", highScore)
 	f.HighScore = uint(highScore)
 }
 

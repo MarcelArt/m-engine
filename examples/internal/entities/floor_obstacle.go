@@ -7,17 +7,20 @@ import (
 )
 
 type FloorObstacle struct {
-	Sprite   *engine.Spritesheet
-	State    *FlappyGameState
-	Position rl.Vector2
-	Velocity rl.Vector2
-	Height   uint
+	Sprite       *engine.Spritesheet
+	State        *FlappyGameState
+	Position     rl.Vector2
+	Velocity     rl.Vector2
+	Height       uint
+	baseVelocity float32
 }
 
 func (o *FloorObstacle) Start(g *engine.Game) {
+	o.baseVelocity = o.Velocity.X
 }
 
 func (o *FloorObstacle) Update(g *engine.Game) {
+	o.Velocity.X = o.baseVelocity - o.State.VelocityModifier
 	screenHeight := rl.GetScreenHeight()
 	segmentPos := rl.NewVector2(o.Position.X, float32(screenHeight))
 	tileHeight := o.Sprite.TileSize.Y

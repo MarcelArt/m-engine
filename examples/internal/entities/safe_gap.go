@@ -7,14 +7,20 @@ import (
 )
 
 type SafeGap struct {
-	Rect     rl.Rectangle
-	Velocity rl.Vector2
-	State    *FlappyGameState
+	Rect         rl.Rectangle
+	Velocity     rl.Vector2
+	State        *FlappyGameState
+	baseVelocity float32
 }
 
-func (s *SafeGap) Start(g *engine.Game) {}
+func (s *SafeGap) Start(g *engine.Game) {
+	s.baseVelocity = s.Velocity.X
+}
 
-func (s *SafeGap) Update(g *engine.Game) {}
+func (s *SafeGap) Update(g *engine.Game) {
+	s.Velocity.X = s.baseVelocity - s.State.VelocityModifier
+	// log.Println("s.Velocity :>> ", s.Velocity)
+}
 
 func (s *SafeGap) Destroy(g *engine.Game) {
 	s.State = nil

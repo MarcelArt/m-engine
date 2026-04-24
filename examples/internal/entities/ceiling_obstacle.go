@@ -7,17 +7,20 @@ import (
 )
 
 type CeilingObstacle struct {
-	Sprite   *engine.Spritesheet
-	State    *FlappyGameState
-	Position rl.Vector2
-	Velocity rl.Vector2
-	Height   uint
+	Sprite       *engine.Spritesheet
+	State        *FlappyGameState
+	Position     rl.Vector2
+	Velocity     rl.Vector2
+	Height       uint
+	baseVelocity float32
 }
 
 func (o *CeilingObstacle) Start(g *engine.Game) {
+	o.baseVelocity = o.Velocity.X
 }
 
 func (o *CeilingObstacle) Update(g *engine.Game) {
+	o.Velocity.X = o.baseVelocity - o.State.VelocityModifier
 	segmentPos := o.Position
 	tileHeight := o.Sprite.TileSize.Y
 	tileScale := o.Sprite.Scale
