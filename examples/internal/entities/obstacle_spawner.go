@@ -10,6 +10,7 @@ type ObstacleSpawner struct {
 	Position      rl.Vector2
 	SpawnRate     float32 // in seconds
 	timer         float32
+	lastRng       int32 // track previous gap position for fairness
 	State         *FlappyGameState
 	FloorObstacle func(height uint, velocity rl.Vector2, state *FlappyGameState) *FloorObstacle
 	CeilObstacle  func(height uint, velocity rl.Vector2, state *FlappyGameState) *CeilingObstacle
@@ -37,6 +38,19 @@ func (o *ObstacleSpawner) Spawn(g *engine.Game) {
 
 	o.timer += rl.GetFrameTime()
 	rng := rl.GetRandomValue(1, 12)
+
+	// If we have a previous spawn, limit how much the gap can move
+	if o.lastRng != 0 {
+		maxChange := int32(3) // maximum vertical movement between spawns
+		if rng > o.lastRng+maxChange {
+			rng = o.lastRng + maxChange
+		} else if rng < o.lastRng-maxChange {
+			rng = o.lastRng - maxChange
+		}
+	}
+
+	// Store current rng for next spawn
+	o.lastRng = rng
 	if o.timer > o.SpawnRate {
 		o.timer = 0
 		g.SceneManager.GetCurrentScene()
