@@ -3,7 +3,7 @@ package entities
 import (
 	"log"
 
-	"github.com/MarcelArt/m-engine/examples/internal/enums"
+	"github.com/MarcelArt/m-engine/examples/flappy/internal/enums"
 	"github.com/MarcelArt/m-engine/pkg/engine"
 )
 

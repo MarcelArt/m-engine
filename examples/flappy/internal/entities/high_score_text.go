@@ -3,7 +3,7 @@ package entities
 import (
 	"fmt"
 
-	"github.com/MarcelArt/m-engine/examples/internal/enums"
+	"github.com/MarcelArt/m-engine/examples/flappy/internal/enums"
 	"github.com/MarcelArt/m-engine/pkg/engine"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )

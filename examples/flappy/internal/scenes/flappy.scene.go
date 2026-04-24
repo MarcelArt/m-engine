@@ -1,8 +1,8 @@
 package scenes
 
 import (
-	"github.com/MarcelArt/m-engine/examples/internal/entities"
-	"github.com/MarcelArt/m-engine/examples/internal/enums"
+	"github.com/MarcelArt/m-engine/examples/flappy/internal/entities"
+	"github.com/MarcelArt/m-engine/examples/flappy/internal/enums"
 	"github.com/MarcelArt/m-engine/pkg/engine"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
@@ -39,12 +39,12 @@ func (s *FlappyScene) Start(g *engine.Game) {
 	flappyBird := &entities.FlappyBird{
 		Position:  rl.NewVector2(float32(screenWidth/2), float32(screenHeight/2)),
 		JumpForce: 400,
-		Sprite:    engine.NewSpritesheet("examples/assets/Bird1-7.png", rl.NewVector2(16, 16), 3),
+		Sprite:    engine.NewSpritesheet("examples/flappy/assets/Bird1-7.png", rl.NewVector2(16, 16), 3),
 		State:     state,
 		// ColliderRect: rl.NewRectangle(350, 100, 48, 48),
 	}
 
-	obstacleSprite := engine.NewSpritesheet("examples/assets/PipeStyle1.png", rl.NewVector2(32, 20), 3)
+	obstacleSprite := engine.NewSpritesheet("examples/flappy/assets/PipeStyle1.png", rl.NewVector2(32, 20), 3)
 	spawner := &entities.ObstacleSpawner{
 		Position:      rl.NewVector2(900, 0),
 		SpawnRate:     2,
@@ -55,7 +55,7 @@ func (s *FlappyScene) Start(g *engine.Game) {
 	}
 
 	background := &entities.Background{
-		Texture: rl.LoadTexture("examples/assets/Background2.png"),
+		Texture: rl.LoadTexture("examples/flappy/assets/Background2.png"),
 	}
 
 	s.AddUIEntity(scoreTxt)
