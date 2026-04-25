@@ -14,4 +14,7 @@ build-flappy-linux:
 # 	@GOOS=darwin GOARCH=arm64 go build -o builds/flappy/flappy ./examples/flappy
 
 build-flappy: build-flappy-windows build-flappy-linux
+
+nakama:
+	@go run examples/nakama/main.go
 	
