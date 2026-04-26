@@ -3,6 +3,7 @@ package engine
 import (
 	"os"
 
+	"github.com/MarcelArt/m-engine/pkg/nakama"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
@@ -15,6 +16,7 @@ type Game struct {
 	PhysicsSystem   *PhysicsSystem
 	CollisionSystem *CollisionSystem
 	GameSave        GameSave
+	Nakama          *nakama.Nakama
 }
 
 func NewGame(width int32, height int32, title string, targetFPS int32) *Game {
@@ -55,6 +57,10 @@ func (g *Game) SetCollisionSystem(collisionSystem *CollisionSystem) {
 
 func (g *Game) SetGameSave(gameSave GameSave) {
 	g.GameSave = gameSave
+}
+
+func (g *Game) SetNakama(nakama *nakama.Nakama) {
+	g.Nakama = nakama
 }
 
 func (g *Game) ExitGame() {
