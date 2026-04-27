@@ -43,3 +43,16 @@ type Account struct {
 	CustomID string `json:"customId"`
 	User     User   `json:"user"`
 }
+
+type Match struct {
+	MatchID       string  `json:"matchId"`
+	Authoritative bool    `json:"authoritative"`
+	Label         string  `json:"label"`
+	Size          int     `json:"size"`
+	TickRate      float32 `json:"tickRate"`
+	HandlerName   string  `json:"handlerName"`
+}
+
+type GetMatchResponse struct {
+	Matches []Match `json:"matches"`
+}

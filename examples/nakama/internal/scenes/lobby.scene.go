@@ -2,6 +2,7 @@ package scenes
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/MarcelArt/m-engine/examples/nakama/internal/entities"
 	"github.com/MarcelArt/m-engine/pkg/engine"
@@ -28,6 +29,9 @@ func (s *LobbyScene) Start(g *engine.Game) {
 	}
 
 	s.AddUIEntity(welcomeText)
+
+	matches, _ := g.Nakama.GetMatches(10, false, 0, 4)
+	log.Println("matches :>> ", matches)
 }
 
 func (s *LobbyScene) Update(g *engine.Game) {
